@@ -30,7 +30,7 @@ def line_cross(line1, line2):
         b2 = y3 * 1.0 - x3 * k2 * 1.0
 
     if k1 is None:
-        if not k2 is None:
+        if k2 is not None:
             x = x1
             y = k2 * x1 + b2
             cross_p = [x,y]
@@ -38,7 +38,7 @@ def line_cross(line1, line2):
         x = x3
         y = k1 * x3 + b1
         cross_p = [x,y]
-    elif not k2 == k1:
+    elif k2 != k1:
         x = (b2 - b1) * 1.0 / (k1 - k2)
         y = k1 * x * 1.0 + b1 * 1.0
         cross_p = [x,y]
@@ -58,7 +58,7 @@ def detect(img):
         l1 = (pts[0].x, pts[0].y, pts[2].x, pts[2].y)
         l2 = (pts[1].x, pts[1].y, pts[3].x, pts[3].y)
         cp = line_cross(l1,l2)
-        if not cp is None:
+        if cp is not None:
             qr_detect.append({'cx':cp[0],'cy':cp[1],'label':code})
     return qr_detect
 
@@ -66,7 +66,7 @@ def detect(img):
 ports = [8080,8081]
 for port in ports:
     try:
-        resp = requests.get('http://192.168.0.88:{}/?action=snapshot'.format(port),timeout=2)
+        resp = requests.get(f'http://192.168.0.88:{port}/?action=snapshot', timeout=2)
         if resp.ok:
             continue
         # f = open('{}.jpg'.format(port),'rb')
